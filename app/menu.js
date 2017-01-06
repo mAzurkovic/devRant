@@ -70,7 +70,7 @@ var template_win = [{
         label: 'Toggle Theme',
         accelerator: 'Control+D',
         click() {
-            // Some code goes here.
+          // Switched theme toggle to `main.js`
         }
     }, {
         type: 'separator'
