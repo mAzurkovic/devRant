@@ -30,6 +30,8 @@ let mainWindow
 let isQuitting = false;
 
 // Main Window
+
+
 function createMainWindow() {
     const lastWindowState = app_config.get('lastWindowState');
     const app_view = new electron.BrowserWindow({
@@ -78,18 +80,17 @@ app.on('ready', () => {
 
     const app_page = mainWindow.webContents;
 
-    // Stock style additions
-    app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app.css'), 'utf8'));
-
-    // Global short cut to activate dark theme (Command+D)
-    const ret = globalShortcut.register('CommandOrControl+D', () => {
-      app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app-dark.css'), 'utf8'));
-    });
-
     app_page.on('dom-ready', () => {
 
         // Dark theme
         //app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app-dark.css'), 'utf8'));
+
+        // Global short cut to activate dark theme (Command+D)
+        app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app.css'), 'utf8'));
+
+        const ret = globalShortcut.register('CommandOrControl+D', () => {
+          app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app-dark.css'), 'utf8'));
+        });
 
         // MacOS Button Offset & Navbar Padding
         if (process.platform == 'darwin') {
