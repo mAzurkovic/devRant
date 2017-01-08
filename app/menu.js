@@ -6,6 +6,8 @@ const app_name = app.getName();
 const app_version = app.getVersion();
 const app_menu = electron.Menu;
 
+const fs = require('fs');
+
 var template_win = [{
     label: 'File',
     submenu: [{

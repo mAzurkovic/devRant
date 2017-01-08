@@ -88,9 +88,11 @@ app.on('ready', () => {
         // Global short cut to activate dark theme (Command+D)
         app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app.css'), 'utf8'));
 
-        const ret = globalShortcut.register('CommandOrControl+D', () => {
-          app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app-dark.css'), 'utf8'));
-        });
+          const themeColor = { theme: 'dark' };
+          fs.writeFile('settings.txt', "SSS", err => {
+            if (err) {console.log(err);}
+          });
+
 
         // MacOS Button Offset & Navbar Padding
         if (process.platform == 'darwin') {
