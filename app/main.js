@@ -17,6 +17,9 @@ const app_is_dev = require('electron-is-dev');
 const path = require('path');
 const fs = require('fs');
 const storage = require('electron-json-storage');
+// Configuration and local storage for settings
+const Config = require('electron-config');
+const config = new Config();
 
 // Electron DL
 require('electron-dl')();
@@ -89,32 +92,21 @@ app.on('ready', () => {
         // Global short cut to activate dark theme (Command+D)
         //app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app.css'), 'utf8'));
 
-        // Toggle light and dark themes using shortcut, saves the theme to settings.json file
+        // Toggle light and dark themes using shortcut, saves them using the config library
         const ret = globalShortcut.register('CommandOrControl+D', () => {
-            storage.get('settings.json', (err, data) => {
-                if (data.theme == 'dark') {
-                    storage.set('settings.json', {theme: 'light'}, err => {
-                        if (err) throw err;
-                    });
-                } else {
-                    storage.set('settings.json', {theme: 'dark'}, err => {
-                        if (err) throw err;
-                    });
-                }
-            });
+          if (config.get('settings') == 'dark') {
+            config.set('settings', 'light');
+          } else {
+            config.set('settings', 'dark');
+          }
         });
 
-        // Read the settings.json file to see user settings:
         // See the theme attribute and set theme accordingly...
-        storage.get('settings.json', (err, data) => {
-            if (err) throw err;
-            console.log(data);
-            if (data.theme == 'dark') {
-                app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app-dark.css'), 'utf8'));
-            } else {
-                app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app.css'), 'utf8'));
-            }
-        });
+        if (config.get('settings') == 'dark') {
+          app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app-dark.css'), 'utf8'));
+        } else {
+          app_page.insertCSS(fs.readFileSync(path.join(__dirname, 'styles/app.css'), 'utf8'));
+        }
 
         // MacOS Button Offset & Navbar Padding
         if (process.platform == 'darwin') {
