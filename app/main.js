@@ -16,7 +16,7 @@ const app_is_dev = require('electron-is-dev');
 // System paths
 const path = require('path');
 const fs = require('fs');
-const storage = require('electron-json-storage');
+
 // Configuration and local storage for settings
 const Config = require('electron-config');
 const config = new Config();
